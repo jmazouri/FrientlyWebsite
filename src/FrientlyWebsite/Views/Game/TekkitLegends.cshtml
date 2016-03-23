@@ -1,0 +1,26 @@
+﻿@model FrientlyWebsite.Models.ViewModels.BlogPostList
+<h1>Tekkit Legends</h1>
+<p>
+    Our Minecraft server runs Tekkit Legends - a modpack combining the best parts of Tekkit's past, while maintaining compatibility with newer Minecraft versions.
+</p>
+<p>
+    For more information, visit this link: <a href="http://www.technicpack.net/modpack/tekkit-legends.735902">Tekkit Legends</a>
+</p>
+<h3>Joining the Server</h3>
+<p>To join, simply download the <a href="http://www.technicpack.net/download">Technic Launcher</a>, and get logged in. Once you've run the modpack once, open the following directory on your computer.
+</p>
+<blockquote>%APPDATA%\.technic\modpacks\tekkit-legends\mods</blockquote>
+<p>Download, then place the following two jar files in that directory.</p>
+<ul>
+    <li><a href="https://openmods.info/downloads/OpenPeripheral-1.7.10-AIO-7.jar">OpenPeripheral 1.7.10</a></li>
+    <li><a href="https://openmods.info/downloads/OpenModsLib-1.7.10-0.9.1.jar">OpenModsLib 1.7.10</a></li>
+</ul>
+<p>Finally, connect to the following address, and start having fun!</p>
+<blockquote>friently.jmazouri.com</blockquote>
+<h3>Backups</h3>
+<p>
+    If you'd like to download a personal backup of the server's world, whether because you think it's cool or you want to
+    maintain your creations, simply visit our backups page <a asp-action="TekkitBackups">here</a>.
+</p>
+<h3>Blog Posts</h3>
+@Html.Partial("_BlogPostList", Model)

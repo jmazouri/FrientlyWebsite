@@ -1,0 +1,35 @@
+﻿@using FrientlyWebsite.Models
+@model FrientlyWebsite.Models.ViewModels.BlogPostList
+@if (!Model.BlogPosts.Any())
+{
+    <small>No posts available</small>
+}
+@foreach (BlogPost post in Model.BlogPosts)
+{
+    <h3>
+        @if (Model.IsAdmin)
+        {
+            <a asp-action="DeletePost" asp-route-id="@post.PostId" title="Delete Post" class="tiny alert button">
+                <i class="fa fa-remove"></i>
+            </a>
+        }
+        @post.Title
+        <small style="font-size: 0.45em;">
+            @post.Posted.ToLocalTime().ToString("D")
+            by
+            @if (post.UserData == null)
+            {
+                <small>Someone. STEAM IS DOWN, OK?</small>
+            }
+            else
+            {
+                <a href="@post.UserData.ProfileUrl">
+                    <img class="avatarpic" src="@post.UserData.AvatarUrlSmall" /> @post.UserData.PersonaName
+                </a>
+            }
+        </small>
+    </h3>
+
+    <p>@Html.Raw(post.Content)</p>
+    <hr />
+}

@@ -1,0 +1,107 @@
+﻿@using System.Threading.Tasks
+@using FrientlyWebsite.App
+
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>@ViewBag.Title</title>
+        <link href="~/css/foundation-sites/foundation.css" rel="stylesheet" type="text/css"/>
+        <link href="~/css/font-awesome.css" rel="stylesheet" type="text/css" />
+        <link href="~/css/main.css" rel="stylesheet" type="text/css" />
+
+        <script src="~/js/jquery/jquery.js"></script>
+        <script src="~/js/foundation-sites/foundation.js"></script>
+    </head>
+
+    <body>
+
+        <header>
+            
+            <div class="top-bar" data-topbar>
+                <div class="top-bar-title"></div>
+                <div class="top-bar-left">
+                    <ul class="dropdown menu" data-dropdown-menu>
+                        @{
+                            List<string> navControllers = new List<string> { "Home", "Blog", "Donate" };
+                            foreach (string controller in navControllers)
+                            {
+                                <li>
+                                    <a asp-controller="@controller" asp-action="Index">
+                                        @if (ViewContext.RouteData.Values["controller"].ToString() == controller)
+                                        {
+                                            <span class="currentPage">@controller</span>
+                                        }
+                                        else
+                                        {
+                                            @controller
+                                        }
+                                    </a>
+                                </li>
+                            }
+                        }
+                        <li>
+                            <a href="#">
+                                @if (ViewContext.RouteData.Values["controller"].ToString() == "Game")
+                                {
+                                    <span class="currentPage">Games</span>
+                                }
+                                else
+                                {
+                                    <text>Games</text>
+                                }
+                            </a>
+                            <ul class="menu">
+                                <li><a asp-controller="Game" asp-action="TekkitLegends">Minecraft (Tekkit Legends)</a></li>
+                                <li><a asp-controller="Game" asp-action="Factorio">Factorio</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <div class="top-bar-right">
+                    <ul class="menu" style="max-width: 300px;">
+                        @if (User.Identity != null && User.Claims.Any())
+                        {
+                            <li>
+                                <a href="http://steamcommunity.com/profiles/@Util.GetSteamId(User.Claims.First())" class="button">
+                                    <i class="fa fa-steam-square"></i> @User.Identity.Name
+                                </a>
+                            </li>
+                            <li>
+                                <a asp-action="SignOut" asp-controller="Auth" title="Log Out" class="button alert signout">
+                                    <i class="fa fa-sign-out"></i>
+                                </a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li>
+                                <a asp-controller="Auth" asp-action="SignIn" class="button warning">
+                                    <i class="fa fa-steam-square"></i> Log In
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+            <h1>
+                Friently Gamers
+            </h1>
+        </header>
+
+        <div class="row">
+            <div class="large-9 medium-8 small-12 columns">
+                @RenderBody()
+            </div>
+            <div class="large-3 medium-4 small-12 columns">
+                <iframe id="discordframe" src="https://discordapp.com/widget?id=123686940821291008&theme=dark" allowtransparency="true" frameborder="0"></iframe>
+            </div>
+        </div>
+
+        <script>
+            $(document).foundation();
+        </script>
+
+    </body>
+
+</html>

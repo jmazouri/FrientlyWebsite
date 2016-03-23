@@ -279,3 +279,8 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+# Other Stuff
+bower_components/
+tinymce/
+src/FrientlyWebsite/appsettings.json

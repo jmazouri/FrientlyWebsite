@@ -1,0 +1,49 @@
+﻿<script src="~/js/tinymce/tinymce.min.js"></script>
+<script src="~/js/tinymce/theme.min.js"></script>
+<script>
+    tinymce.init({
+        selector: 'textarea',
+        height: 500,
+        plugins: [
+            'advlist autolink lists link image charmap print preview anchor',
+            'searchreplace visualblocks code fullscreen',
+            'insertdatetime media table contextmenu paste code'
+        ],
+        toolbar:
+            'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image'
+    });
+</script>
+
+<h1>New Blog Post</h1>
+
+<form asp-controller="Blog" asp-action="NewPost" method="post">
+    <div class="row">
+        <div class="large-10 columns">
+            <label>
+                Post Title
+                <input type="text" name="title" placeholder="Enter title here">
+            </label>
+        </div>
+        <div class="large-2 columns">
+            <label>
+                Game
+                <select name="game">
+                    <option value=""></option>
+                    <option value="Factorio">Factorio</option>
+                    <option value="Tekkit">Tekkit</option>
+                </select>
+            </label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="large-12 columns">
+            <textarea name="content"></textarea>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="pull-right">
+            <input class="button success" type="submit" name="submit" value="Submit Post" />
+        </div>
+    </div>
+</form>

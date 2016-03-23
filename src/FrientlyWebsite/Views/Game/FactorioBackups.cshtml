@@ -1,0 +1,14 @@
+﻿@using System.IO
+@model IEnumerable<System.IO.FileInfo>
+<h1>Factorio Server Backups</h1>
+<p>Simply click one of the links below to download a full autosave of the map. </p>
+<ul>
+    @foreach (FileInfo file in Model)
+    {
+        <li>
+            <a asp-controller="Game" asp-action="DownloadFactorioBackup" asp-route-backupname="@file.Name">
+                @file.LastWriteTime.ToString("g")
+            </a>
+        </li>
+    }
+</ul>

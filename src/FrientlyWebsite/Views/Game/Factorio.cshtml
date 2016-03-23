@@ -1,0 +1,15 @@
+﻿@model FrientlyWebsite.Models.ViewModels.BlogPostList
+<h1>Factorio</h1>
+<p>
+    We're running a server for the new industrial engineering simulator, Factorio.
+</p>
+<iframe src="http://store.steampowered.com/widget/427520/" style="width: 100%; height: 200px;" allowtransparency="true" frameborder="0"></iframe>
+<p>Connect via the following address: </p>
+<blockquote>friently.jmazouri.com:34197</blockquote>
+<h3>Backups</h3>
+<p>
+    If you'd like to download a personal backup of the server's world, whether because you think it's cool or you want to
+    maintain your creations, simply visit our backups page <a asp-action="FactorioBackups">here</a>.
+</p>
+<h3>Blog Posts</h3>
+@Html.Partial("_BlogPostList", Model)

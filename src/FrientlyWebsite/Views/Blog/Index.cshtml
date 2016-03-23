@@ -1,0 +1,7 @@
+﻿@using FrientlyWebsite.Models
+@model FrientlyWebsite.Models.ViewModels.BlogPostList
+@if (Model.IsAdmin)
+{
+    <a asp-action="NewPost" class="success button pull-right">New Post</a>
+}
+@Html.Partial("_BlogPostList", Model)

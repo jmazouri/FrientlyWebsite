@@ -1,0 +1,70 @@
+﻿@using FrientlyWebsite.App
+@using Stripe
+@model IEnumerable<Stripe.StripePlan>
+<h1>Friently Donation</h1>
+
+<p>
+    Thank you very much for considering donating to Friently Gamers! Your donations allow us to keep running our servers
+    the way we want to, keeps our website up, and allows us to focus on what makes Friently Gamers great. Below are our
+    donation options - we greatly appreciate your patronage!
+</p>
+
+<hr/>
+<form>
+    How much do you want to donate?
+    <div class="input-group" style="width: 200px;">
+        <span class="input-group-label">$</span>
+        <input class="input-group-field" type="number" id="amount" step="0.01" placeholder="0.00">
+        <div class="input-group-button">
+            <input type="button" class="button" id="donate" value="Submit">
+        </div>
+    </div>
+</form>
+<!--
+<h3>Monthly Donation</h3>
+@foreach (StripePlan plan in Model)
+{
+    <button id="@plan.Id" class="button success">$@(plan.Amount / 100).00</button>
+}
+-->
+
+<script src="https://checkout.stripe.com/checkout.js"></script>
+
+<script>
+    var userId = "@Util.GetSteamId(User.Claims.First())";
+
+    $('#donate').on('click', function (e) {
+
+    if (Number($("#amount").val()) == NaN)
+    {
+        alert("Your input amount was not valid.");
+        return;
+    }
+
+    var handler = StripeCheckout.configure({
+        key: 'pk_test_96kI4jTQloUEpjoAkcGXwbmR',
+        locale: 'auto',
+        token: function (token) {
+            // Use the token to create the charge with a server-side script.
+            // You can access the token ID with `token.id`
+
+        }
+    });
+
+    // Open Checkout with further options
+    handler.open({
+      name: 'Jmazouri',
+      description: 'Friently Donation',
+      allowRememberMe: false,
+      panelLabel: "Donate",
+      bitcoin: true,
+      amount: Number($("#amount").val()) * 100
+    });
+    e.preventDefault();
+  });
+
+  // Close Checkout on page navigation
+  $(window).on('popstate', function() {
+    handler.close();
+  });
+</script>

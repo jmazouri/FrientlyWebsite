@@ -1,0 +1,28 @@
+{
+  "name": "FrientlyWebsite",
+  "authors": [
+    "jmazouri"
+  ],
+  "description": "Friently Gamers Website",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "font-awesome": "4.4.0",
+    "tinymce": "~4.3.8"
+  },
+  "install": {
+    "path": {
+      "scss": "wwwroot/css",
+      "js": "wwwroot/js"
+    }
+  }
+}

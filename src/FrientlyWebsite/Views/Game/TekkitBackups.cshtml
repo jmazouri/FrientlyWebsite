@@ -1,0 +1,14 @@
+﻿@using System.IO
+@model IEnumerable<System.IO.FileInfo>
+<h1>Tekkit Server Backups</h1>
+<p>Simply click one of the links below to download a full backup of the world. Generated hourly. If you're an op on the server, you can run /febackup to manually back up.</p>
+<ul>
+    @foreach (FileInfo file in Model)
+    {
+        <li>
+            <a asp-controller="Game" asp-action="DownloadTekkitBackup" asp-route-backupname="@file.Name">
+                @file.LastWriteTime.ToString("g")
+            </a>
+        </li>
+    }
+</ul>
