@@ -7,7 +7,7 @@
     {
         <li>
             <a asp-controller="Game" asp-action="DownloadFactorioBackup" asp-route-backupname="@file.Name">
-                @file.LastWriteTime.ToString("g")
+                @file.Name @@ @file.LastWriteTime.ToString("g")
             </a>
         </li>
     }

@@ -67,7 +67,7 @@ namespace FrientlyWebsite.Controllers
 
         public ActionResult FactorioBackups()
         {
-            return View(Directory.GetFiles(FactorioBackupsFolder, "_autosave*.zip").Select(d => new FileInfo(d)).OrderByDescending(d => d.CreationTime));
+            return View(Directory.GetFiles(FactorioBackupsFolder, "*.zip").Select(d => new FileInfo(d)).OrderByDescending(d => d.CreationTime));
         }
 
         public ActionResult TekkitBackups()
