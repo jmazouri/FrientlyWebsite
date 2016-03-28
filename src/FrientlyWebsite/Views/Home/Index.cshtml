@@ -2,6 +2,31 @@
 
 <p>
     <strong>Friently Gamers</strong>
-    is a group of like-minded individuals who enjoy playing games together. If you enjoy playing sandbox games on a huge server, or joining pick-up-games of 
-    Dota and CS:GO, come check us out! View our gameservers at the top, join our Discord server, and have fun!
+    is a group of like-minded individuals who enjoy playing games together. If you enjoy playing sandbox games on a huge server, or joining pick-up-games of
+    Dota and CS:GO, come check us out! View our gameservers down there, join our Discord server, and have fun!
 </p>
+
+<p>If you're enjoying yourself on our servers, please consider <strong><a asp-controller="Donate">Donating</a></strong>. It would really help us out!</p>
+
+<div class="row">
+    <div class="large-6 columns">
+        <div class="large-12 columns gamebox tekkit">
+            <h4><a asp-controller="Game" asp-action="TekkitLegends">Tekkit</a></h4>
+            <input type="text" disabled="true" value="friently.jmazouri.com:25565" />
+            <ul>
+                <li><a asp-controller="Game" asp-action="TekkitLegends" asp-fragment="Mods">Mods</a></li>
+                <li><a asp-controller="Game" asp-action="TekkitBackups">Backups</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="large-6 columns">
+        <div class="large-12 columns gamebox factorio">
+            <h4><a asp-controller="Game" asp-action="Factorio">Factorio</a></h4>
+            <input type="text" disabled="true" value="friently.jmazouri.com:34197" />
+            <ul>
+                <li><a asp-controller="Game" asp-action="Factorio" asp-fragment="Mods">Mods</a></li>
+                <li><a asp-controller="Game" asp-action="FactorioBackups">Backups</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
