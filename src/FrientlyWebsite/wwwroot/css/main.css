@@ -88,6 +88,10 @@ header > h1
     border-radius: 8px;
 
     padding: 0;
+
+    min-height:168px;
+
+    background-size: 100%;
 }
 
 .gamebox input
@@ -106,6 +110,22 @@ header > h1
     background-image: url("../img/factorio_bg.jpg");
 }
 
+.gamebox.tf2
+{
+    background-image: url("../img/tf2_bg.jpg");
+}
+
+.gamebox.tf2 h4
+{
+    font-size:3em;
+    padding-top:20px;
+}
+
+.gamebox.tf2 input
+{
+    height:60px;
+}
+
 .gamebox.tekkit
 {
     background-image: url("../img/tekkit_bg.jpg");
@@ -118,6 +138,8 @@ header > h1
     font-weight: bold;
 
     line-height: 1.2em;
+
+    min-height:90px;
 
     margin: 0;
 

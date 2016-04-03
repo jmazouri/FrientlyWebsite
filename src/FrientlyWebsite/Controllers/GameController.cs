@@ -17,6 +17,7 @@ namespace FrientlyWebsite.Controllers
     {
         private static string TekkitBackupsFolder = @"E:\aaas";
         private static string FactorioBackupsFolder = @"E:\aaas";
+        private static string Tf2Folder = @"H:\Steam\steamapps\common\Team Fortress 2\tf\maps";
 
         public GameController(ILoggerFactory loggerFactory, IConfiguration configuration) : base(loggerFactory, configuration)
         {
@@ -24,6 +25,7 @@ namespace FrientlyWebsite.Controllers
             {
                 TekkitBackupsFolder = "/var/tekkitserver/ForgeEssentials/Backups/world/DIM_0";
                 FactorioBackupsFolder = "/var/factorio/saves";
+                Tf2Folder = "/var/steam/tf2/tf/maps";
             }
         }
 
@@ -58,6 +60,25 @@ namespace FrientlyWebsite.Controllers
         public async Task<ActionResult> TekkitLegends()
         {
             return View(await GetBlogPosts("Tekkit"));
+        }
+
+        [HttpGet("/Game/Tf2Download/{*file}")]
+        public ActionResult Tf2Download(string file)
+        {
+            string backupPath = Path.Combine(Tf2Folder, Path.GetFileName(file));
+
+            if (System.IO.File.Exists(backupPath))
+            {
+                return File(new FileStream(backupPath, FileMode.Open), "application/octet-stream");
+            }
+
+            return HttpNotFound();
+        }
+
+        // GET: /<controller>/
+        public async Task<ActionResult> TeamFortress2()
+        {
+            return View(await GetBlogPosts("TF2"));
         }
 
         public async Task<ActionResult> Factorio()
