@@ -1,22 +1,22 @@
 ﻿<form asp-controller="Event" asp-action="NewEvent" method="post">
     <div class="row">
-        <div class="large-8 columns">
+        <div class="large-6 columns">
             <label>
                 Event Name
-                <input type="text" name="title" placeholder="Enter name here">
+                <input type="text" name="name" placeholder="Enter name here">
             </label>
         </div>
-        <div class="large-2 columns">
+        <div class="large-3 columns">
             <label>
                 Start Date
-                <input type="datetime" name="datestart"/>
+                <input type="datetime-local" name="datestart"/>
             </label>
         </div>
 
-        <div class="large-2 columns">
+        <div class="large-3 columns">
             <label>
                 End Date
-                <input type="datetime" name="dateend" />
+                <input type="datetime-local" name="dateend" />
             </label>
         </div>
     </div>

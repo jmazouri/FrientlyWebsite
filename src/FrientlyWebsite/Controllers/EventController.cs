@@ -6,6 +6,7 @@ using FrientlyWebsite.App;
 using FrientlyWebsite.App.Discord;
 using FrientlyWebsite.Database;
 using FrientlyWebsite.Models;
+using FrientlyWebsite.Models.ViewModels;
 using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -31,8 +32,16 @@ namespace FrientlyWebsite.Controllers
                     curEvent.UserData = await new SteamUserData(curEvent.CreatorId).Load(_configuration);
                 }
 
-                return View(result);
+                string userId = Util.GetSteamId(User.Claims.First());
+                bool isAdmin = await container.IsAdmin(userId);
+
+                return View(new EventList { Events = result , IsAdmin = isAdmin });
             }
+        }
+
+        public ActionResult Create()
+        {
+            return View();
         }
 
         [Authorize]
@@ -47,7 +56,14 @@ namespace FrientlyWebsite.Controllers
 
                 await container.AddEvent(new Event { Name = name, DateStart =  datestart, DateEnd = dateend, CreatorId = userId });
 
-                DiscordIntegration.Current.SendAnnouncement($"New event from {datestart.ToString("d")} to {dateend.ToString("d")}: {name} http://friently.jmazouri.com/Event");
+                if (dateend == DateTime.MinValue)
+                {
+                    DiscordIntegration.Current.SendAnnouncement($"New event on {datestart.ToString("d")}: {name} http://friently.jmazouri.com/Event");
+                }
+                else
+                {
+                    DiscordIntegration.Current.SendAnnouncement($"New event from {datestart.ToString("d")} to {dateend.ToString("d")}: {name} http://friently.jmazouri.com/Event");
+                }
 
                 return RedirectToAction("Index");
             }
