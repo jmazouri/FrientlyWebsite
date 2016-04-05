@@ -1,0 +1,14 @@
+﻿@using FrientlyWebsite.Models
+@model List<FrientlyWebsite.Models.Event>
+<h1>Events</h1>
+@foreach (var dategroup in Model.GroupBy(d=>d.DatePosted.Date))
+{
+    <h3>@dategroup.Key.ToShortDateString()</h3>
+    <hr />
+    <ul>
+        @foreach (Event curEvent in dategroup)
+        {
+            <h5><li>@curEvent.Name - @curEvent.DatePosted.ToShortTimeString()</li></h5>
+        }
+    </ul>
+}

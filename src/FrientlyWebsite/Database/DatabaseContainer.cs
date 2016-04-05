@@ -17,7 +17,7 @@ namespace FrientlyWebsite.Database
     {
         private DbConnection _dbConnection;
         private ILogger<DatabaseContainer> _logger;
-        private List<IMigration> Migrations = new List<IMigration> {new BlogAddGameTag()};
+        private List<IMigration> Migrations = new List<IMigration> {new BlogAddGameTag(), new AddEventsTables()};
 
         public DatabaseContainer(ILogger<DatabaseContainer> logger, IConfiguration configuration)
         {
@@ -125,6 +125,18 @@ namespace FrientlyWebsite.Database
         {
             var ret = await _dbConnection.QueryAsync<BlogPost>("SELECT * FROM posts");
             return ret.ToList();
+        }
+
+        public async Task<List<Event>> GetEvents()
+        {
+            var ret = await _dbConnection.QueryAsync<Event>("SELECT * FROM events");
+            return ret.ToList();
+        }
+
+        public async Task AddEvent(Event newEvent)
+        {
+            await _dbConnection.ExecuteAsync("INSERT INTO events (name, datestart, dateend, creatorid) VALUES (@Name, @DateStart, @DateEnd, @CreatorId)",
+                                              new { newEvent.Name, newEvent.DateStart, newEvent.DateEnd, newEvent.CreatorId});
         }
 
         public async Task AddPost(BlogPost post, string id)

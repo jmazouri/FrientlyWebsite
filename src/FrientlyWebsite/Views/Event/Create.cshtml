@@ -1,0 +1,29 @@
+﻿<form asp-controller="Event" asp-action="NewEvent" method="post">
+    <div class="row">
+        <div class="large-8 columns">
+            <label>
+                Event Name
+                <input type="text" name="title" placeholder="Enter name here">
+            </label>
+        </div>
+        <div class="large-2 columns">
+            <label>
+                Start Date
+                <input type="datetime" name="datestart"/>
+            </label>
+        </div>
+
+        <div class="large-2 columns">
+            <label>
+                End Date
+                <input type="datetime" name="dateend" />
+            </label>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="pull-right">
+            <input class="button success" type="submit" name="submit" value="Submit Event" />
+        </div>
+    </div>
+</form>
