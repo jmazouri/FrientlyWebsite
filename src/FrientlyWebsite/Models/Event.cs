@@ -8,6 +8,8 @@ namespace FrientlyWebsite.Models
 {
     public class Event
     {
+        public int EventId { get; set; }
+
         public string Name { get; set; }
         public string CreatorId { get; set; }
 

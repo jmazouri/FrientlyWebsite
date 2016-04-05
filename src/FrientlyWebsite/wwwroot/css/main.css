@@ -188,6 +188,57 @@ header > h1
     border-right: 1px solid white;
 }
 
+.rsvp
+{
+    cursor: pointer;
+}
+
+.timebox
+{
+    width: 75px;
+    text-align: center;
+}
+
+.eventline
+{
+    
+    padding-bottom: 15px;
+}
+
+.avatarbox
+{
+    padding-top: 5px;
+}
+
+.boxcover
+{
+    font-size: 12px;
+    display: inline-block;
+    color: white;
+
+    padding: 4px;
+}
+
+.boxcover.Confirmed
+{
+    background-color: #3adb76;
+}
+
+.boxcover.Maybe
+{
+    background-color: #ffae00;
+}
+
+.boxcover.Rejected
+{
+    background-color: #ec5840;
+}
+
+.boxcover img
+{
+    margin-top: -1px;
+}
+
 /* Medium and Down */
 @media screen and (max-width: 64em)
 {

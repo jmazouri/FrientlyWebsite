@@ -58,17 +58,12 @@ namespace FrientlyWebsite.Database
 
                     foreach (IMigration migration in Migrations)
                     {
-                        _logger.LogInformation("Executing migration \"{migration.GetType().Name}\"");
+                        _logger.LogInformation($"Executing migration \"{migration.GetType().Name}\"");
                         var result = migration.ApplyMigration(_dbConnection);
 
-                        if (result == true)
-                        {
-                            _logger.LogInformation("Migration completed.");
-                        }
-                        else
-                        {
-                            _logger.LogInformation("Migration was not executed - probably unnecessary.");
-                        }
+                        _logger.LogInformation(result
+                            ? "Migration completed."
+                            : "Migration was not executed - probably unnecessary.");
                     }
                 }
             }
@@ -130,6 +125,14 @@ namespace FrientlyWebsite.Database
         public async Task<List<Event>> GetEvents()
         {
             var ret = await _dbConnection.QueryAsync<Event>("SELECT * FROM events");
+
+            foreach (var row in ret)
+            {
+                row.Commitments = new List<EventCommitment>();
+                row.Commitments.AddRange(await _dbConnection.QueryAsync<EventCommitment>(
+                    "SELECT * FROM eventcommitments WHERE sourceevent = @SourceEvent", new { SourceEvent = row.EventId }));
+            }
+
             return ret.ToList();
         }
 
@@ -145,9 +148,22 @@ namespace FrientlyWebsite.Database
                                               new { post.Title, post.Content, PostDate = DateTime.UtcNow, UserId = id, post.Game });
         }
 
+        public async Task DeleteEvent(int id)
+        {
+            await _dbConnection.ExecuteAsync("DELETE FROM events WHERE eventid = @EventId", new { EventId = id });
+        }
+
         public async Task DeletePost(int id)
         {
             await _dbConnection.ExecuteAsync("DELETE FROM posts WHERE postid = @PostId", new { PostId = id });
+        }
+
+        public async Task AddOrUpdateCommitment(int eventid, string userid, CommitmentState state, string comment)
+        {
+            await _dbConnection.ExecuteAsync("INSERT INTO eventcommitments (userid, commitmentstate, sourceevent, comment) VALUES (@UserId, @CommitmentState, @SourceEvent, @Comment) " +
+                                             "ON CONFLICT ON CONSTRAINT eventcommitments_pkey DO UPDATE SET " +
+                                             "commitmentstate=excluded.commitmentstate, comment=excluded.comment;", 
+                                             new { UserId = userid, CommitmentState = state, SourceEvent = eventid, Comment = comment });
         }
 
         public async Task AddOrUpdateUser(string id)

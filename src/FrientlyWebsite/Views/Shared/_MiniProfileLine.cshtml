@@ -1,0 +1,11 @@
+﻿@model FrientlyWebsite.App.SteamUserData
+@if (Model == null)
+{
+    <small>Someone. STEAM IS DOWN, OK?</small>
+}
+else
+{
+    <a href="@Model.ProfileUrl">
+        <img class="avatarpic" src="@Model.AvatarUrlSmall" /> @Model.PersonaName
+    </a>
+}

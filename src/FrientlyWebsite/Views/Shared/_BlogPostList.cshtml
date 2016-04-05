@@ -17,16 +17,7 @@
         <small style="font-size: 0.45em;">
             @post.Posted.ToLocalTime().ToString("D")
             by
-            @if (post.UserData == null)
-            {
-                <small>Someone. STEAM IS DOWN, OK?</small>
-            }
-            else
-            {
-                <a href="@post.UserData.ProfileUrl">
-                    <img class="avatarpic" src="@post.UserData.AvatarUrlSmall" /> @post.UserData.PersonaName
-                </a>
-            }
+            @Html.Partial("_MiniProfileLine", post.UserData)
         </small>
     </h3>
 

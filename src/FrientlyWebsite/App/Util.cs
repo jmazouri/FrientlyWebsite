@@ -10,12 +10,17 @@ namespace FrientlyWebsite.App
     {
         public static string GetSteamId(string url)
         {
+            if (String.IsNullOrWhiteSpace(url))
+            {
+                return null;
+            }
+
             return url.Substring(url.LastIndexOf('/') + 1);
         }
 
         public static string GetSteamId(Claim claim)
         {
-            return GetSteamId(claim.Value);
+            return GetSteamId(claim?.Value);
         }
 
         public static bool IsUnix()

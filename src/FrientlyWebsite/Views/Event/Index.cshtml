@@ -1,4 +1,5 @@
-﻿@using FrientlyWebsite.Models
+﻿@using FrientlyWebsite.App
+@using FrientlyWebsite.Models
 @model FrientlyWebsite.Models.ViewModels.EventList
 <h1>
     Events
@@ -11,24 +12,95 @@
 <div class="row">
     @foreach (var dategroup in Model.Events.GroupBy(d => d.DateStart.Date).OrderByDescending(d => d.Key))
     {
-        <div class="large-4 columns">
+        <div class="large-12 columns">
             <h3>@dategroup.Key.ToShortDateString()</h3>
 
             <ul>
                 @foreach (Event curEvent in dategroup)
                 {
-                    <li>
-                        <span class="label">@curEvent.DateStart.ToShortTimeString()</span>
+                    string personalStatus = curEvent.Commitments.FirstOrDefault(d => d.UserId == Util.GetSteamId(User.Claims.FirstOrDefault()))?.CommitmentState.ToString();
+
+                    <li class="eventline">
+                        @if (Model.IsAdmin)
+                        {
+                            <a asp-action="DeleteEvent" asp-route-id="@curEvent.EventId" title="Delete Event" class="label alert">
+                                <i class="fa fa-remove"></i>
+                            </a>
+                        }
+
+                        <span class="label rsvp @(personalStatus == "Confirmed" ? "success" : "secondary")" data-state="Confirmed" data-id="@curEvent.EventId" title="I&apos;m In">
+                            <i class="fa fa-check"></i>
+                        </span>
+
+                        <span class="label rsvp @(personalStatus == "Maybe" ? "warning" : "secondary")" data-state="Maybe" data-id="@curEvent.EventId" title="Ehh...">
+                            <i class="fa fa-question"></i>
+                        </span>
+
+                        <span class="label rsvp @(personalStatus == "Rejected" ? "alert" : "secondary")" data-state="Rejected" data-id="@curEvent.EventId" title="Can&apos;t">
+                            <i class="fa fa-ban"></i>
+                        </span>
+
+                        <span class="label timebox">@curEvent.DateStart.ToShortTimeString()</span>
+                        @if (curEvent.DateEnd != DateTime.MinValue)
+                        {
+                            <small><i class="fa fa-arrow-right"></i></small>
+                            <span class="label timebox">@curEvent.DateEnd.ToShortTimeString()</span>
+                        }
+                        <small>
+                            @Html.Partial("_MiniProfileLine", curEvent.UserData)
+                            wants to
+                        </small>
                         <strong>@curEvent.Name</strong>
 
-                        @if (curEvent.DateEnd != DateTime.MinValue)
-                    {
-                            <small><i class="fa fa-arrow-right"></i></small>
-                            <span class="label">@curEvent.DateEnd.ToShortTimeString()</span>
+                        @if (curEvent.Commitments.Any())
+                        {
+                            <div class="avatarbox">
+                                @foreach (EventCommitment commit in curEvent.Commitments)
+                                {
+                                    <a href="@commit.UserData.ProfileUrl">
+                                        <div title="@commit.UserData.PersonaName: @commit.CommitmentState" class="boxcover @commit.CommitmentState">
+                                            <img class="avatarpic" src="@commit.UserData.AvatarUrlSmall"/>
+                                            @commit.UserData.PersonaName
+                                        </div>
+                                    </a>
+                                }
+                            </div>
                         }
+
+                        
+                        
                     </li>
+
                 }
             </ul>
         </div>
     }
 </div>
+
+<script type="text/javascript">
+    $(document).on("click", ".rsvp", function()
+    {
+        var curElem = $(this);
+
+        $.ajax({
+            method: "post",
+            url: "/Event/UpdateEventCommitment",
+            data: { id: curElem.attr("data-id"), newState: curElem.attr("data-state") }
+        }).done(function () {
+            switch (curElem.attr("data-state"))
+            {
+                case "Confirmed":
+                    curElem.addClass("success");
+                    break;
+                case "Maybe":
+                    curElem.addClass("warning");
+                    break;
+                case "Rejected":
+                    curElem.addClass("alert");
+                    break;
+
+            }
+            curElem.parent().children(".rsvp").not(curElem).attr("class", "label rsvp secondary");
+        });
+    });
+</script>

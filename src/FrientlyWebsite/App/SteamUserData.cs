@@ -18,7 +18,11 @@ namespace FrientlyWebsite.App
 
     public class SteamUserData
     {
+        private static Dictionary<string, SteamUserData> _cache = new Dictionary<string, SteamUserData>(); 
+
         private string _steamid = null;
+
+        private DateTime loadTime;
 
         [JsonProperty("avatarfull")]
         public string AvatarUrlLarge { get; private set; }
@@ -44,6 +48,14 @@ namespace FrientlyWebsite.App
 
         public async Task<SteamUserData> Load(IConfiguration configuration)
         {
+            if (_cache.ContainsKey(_steamid))
+            {
+                if (_cache[_steamid].loadTime - DateTime.UtcNow < new TimeSpan(0, 6, 0))
+                {
+                    return _cache[_steamid];
+                }
+            }
+
             HttpClient client = new HttpClient();
             try
             {
@@ -53,7 +65,12 @@ namespace FrientlyWebsite.App
                     .GetStringAsync($"http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key={apikey}&steamids={_steamid}");
 
                 var responseObject = JObject.Parse(response)["response"]["players"][0];
-                return JsonConvert.DeserializeObject<SteamUserData>(responseObject.ToString());
+                var ret = JsonConvert.DeserializeObject<SteamUserData>(responseObject.ToString());
+                
+                ret.loadTime = DateTime.UtcNow;
+                _cache.Add(_steamid, ret);
+
+                return _cache[_steamid];
             }
             catch (HttpRequestException)
             {
