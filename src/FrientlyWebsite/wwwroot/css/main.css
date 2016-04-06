@@ -201,22 +201,23 @@ header > h1
 
 .eventline
 {
-    
     padding-bottom: 15px;
 }
 
 .avatarbox
 {
-    padding-top: 5px;
+    padding: 8px;
 }
 
 .boxcover
 {
+    border-radius: 8px;
+
     font-size: 12px;
     display: inline-block;
     color: white;
 
-    padding: 4px;
+    padding: 6px;
 }
 
 .boxcover.Confirmed

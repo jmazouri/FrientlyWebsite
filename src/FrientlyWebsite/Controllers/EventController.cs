@@ -32,7 +32,7 @@ namespace FrientlyWebsite.Controllers
                     curEvent.UserData = await new SteamUserData(curEvent.CreatorId).Load(_configuration);
                     foreach (var eventCommit in curEvent.Commitments)
                     {
-                        eventCommit.UserData = await new SteamUserData(curEvent.CreatorId).Load(_configuration);
+                        eventCommit.UserData = await new SteamUserData(eventCommit.UserId).Load(_configuration);
                     }
                 }
 

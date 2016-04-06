@@ -55,7 +55,7 @@
                         @if (curEvent.Commitments.Any())
                         {
                             <div class="avatarbox">
-                                @foreach (EventCommitment commit in curEvent.Commitments)
+                                @foreach (EventCommitment commit in curEvent.Commitments.OrderBy(d=>d.CommitmentState).ThenBy(d=>d.UserData.PersonaName))
                                 {
                                     <a href="@commit.UserData.ProfileUrl">
                                         <div title="@commit.UserData.PersonaName: @commit.CommitmentState" class="boxcover @commit.CommitmentState">
